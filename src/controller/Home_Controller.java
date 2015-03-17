@@ -2,6 +2,9 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
 
 import view.Home_Frame;
 import view.Login_Form;
@@ -65,6 +68,11 @@ public class Home_Controller implements ActionListener{
 	}
 
 	private void login() {
-		
+		try {
+			user = login.authenticate(sqlConnect);
+		} catch (ClassNotFoundException | SQLException e) {
+			JOptionPane.showMessageDialog(null, "Something went wrong when authenticating the user! The error message is: "+e.getMessage(), "Authentication Error!", JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 	}
 }

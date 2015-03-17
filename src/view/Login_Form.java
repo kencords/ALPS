@@ -8,9 +8,13 @@ import javax.swing.JButton;
 
 import java.awt.Font;
 import java.awt.Dimension;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import javax.swing.SwingConstants;
 
+import others.Util;
+import model.SQLConnection;
 import model.User;
 
 @SuppressWarnings("serial")
@@ -75,7 +79,12 @@ public class Login_Form extends JFrame{
 		setLocationRelativeTo(null);
 	}
 	
-	public User authenticate(){
+	public User authenticate(SQLConnection sqlConnect) throws ClassNotFoundException, SQLException{
+		String username = usernameTF.getText().trim();
+		String password = Util.toString(passwordPF.getPassword());
+		ResultSet rs = sqlConnect.query("select * from user where username = '"+username+"' and password = md5('"+password+"')");
+		if(rs.next())
+			return new User();
 		return null;
 	}
 }

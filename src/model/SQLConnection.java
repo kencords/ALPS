@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import sun.font.CreatedFontTracker;
 
@@ -26,12 +27,14 @@ public class SQLConnection {
 		
 	}
 	
-	public void update() throws ClassNotFoundException, SQLException{
+	public void update(String update) throws ClassNotFoundException, SQLException{
 		Connection conn = createConnection(database, hostname, username, password, port);
 	}
 	
-	public void query(ResultSet resultSet) throws ClassNotFoundException, SQLException{
+	public ResultSet query(String query) throws ClassNotFoundException, SQLException{
 		Connection conn = createConnection(database, hostname, username, password, port);
+		Statement stmt = conn.createStatement();
+		return stmt.executeQuery(query);
 	}
 	
 	private static SQLConnection instance;

@@ -13,10 +13,7 @@ import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
-import java.awt.Component;
-
-import javax.swing.Box;
-
+import others.Util;
 import main.Main;
 import model.SQLConnection;
 
@@ -72,7 +69,7 @@ public class Database_Password extends JFrame implements ActionListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String password = getPassword(passwordField.getPassword());
+		String password = Util.toString(passwordField.getPassword());
 		try {
 			SQLConnection.checkConnection(password);
 			JOptionPane.showMessageDialog(this, "Database connection established! Press ok to start the application.", "Connection Established", JOptionPane.INFORMATION_MESSAGE);
@@ -85,11 +82,5 @@ public class Database_Password extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(this, "Cannot connect to the database! Please make sure that you entered the correct root password. The erorr message is: "+e1.getMessage(), "Error in JDBC driver.", JOptionPane.ERROR_MESSAGE);
 			e1.printStackTrace();
 		}
-	}
-	private String getPassword(char[] password) {
-		String pass = "";
-		for(char c : password)
-			pass+=c;
-		return pass;
 	}
 }

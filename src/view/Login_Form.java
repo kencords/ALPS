@@ -15,7 +15,6 @@ import javax.swing.SwingConstants;
 
 import others.Util;
 import model.SQLConnection;
-import model.User;
 
 @SuppressWarnings("serial")
 public class Login_Form extends JFrame{
@@ -79,12 +78,21 @@ public class Login_Form extends JFrame{
 		setLocationRelativeTo(null);
 	}
 	
-	public User authenticate(SQLConnection sqlConnect) throws ClassNotFoundException, SQLException{
+	/**
+	 * check if the user exists in the database, if the user exists, the resultset is returned if not the null.
+	 * @param sqlConnect
+	 * @return the resultset of the user found
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	public ResultSet authenticate(SQLConnection sqlConnect) throws ClassNotFoundException, SQLException{
 		String username = usernameTF.getText().trim();
 		String password = Util.toString(passwordPF.getPassword());
-		ResultSet rs = sqlConnect.query("select * from user where username = '"+username+"' and password = md5('"+password+"')");
-		if(rs.next())
-			return new User();
-		return null;
+		ResultSet rs = sqlConnect.query("select * from user where username = '"+Util.insertBackSlash(username)+"' and password = md5('"+Util.insertBackSlash(password)+"')");
+		try{
+			if(rs.next())	// if there is no username found this statement will throw an exception
+				return rs;
+		}catch(Exception e){}
+		return null;	// return null because no username was found
 	}
 }

@@ -5,16 +5,25 @@ import javax.swing.JFrame;
 import view.comm.Comm_Tab;
 import view.faculty.Faculty_Tab;
 import view.report.Report_Tab;
+
 import java.awt.Dimension;
+
 import javax.swing.JTabbedPane;
 import javax.swing.JPanel;
+
 import java.awt.Component;
+
 import javax.swing.Box;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
+
+import model.User;
+
 import java.awt.FlowLayout;
 
 @SuppressWarnings("serial")
@@ -43,6 +52,8 @@ public class Home_Frame extends JFrame {
 		initGUI();
 	}
 	private void initGUI() {
+		setSize(new Dimension(800, 500));
+		setLocationRelativeTo(null);
 		setTitle("A.L.P.S.");
 		getContentPane().setLayout(null);
 		
@@ -112,5 +123,13 @@ public class Home_Frame extends JFrame {
 		btnHelp = new JButton("Help");
 		btnHelp.setOpaque(false);
 		panel.add(btnHelp);
+	}
+	
+	/**
+	 * show the home frame and set its values depending on the user
+	 * @param user
+	 */
+	public void showFrame(User user) {
+		setVisible(true);
 	}
 }

@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import sun.font.CreatedFontTracker;
-
 public class SQLConnection {
 
 	private static String database = "alps_db", hostname = "localhost", username = "root", port = "3306";
@@ -48,5 +46,18 @@ public class SQLConnection {
 	public static void checkConnection(String password) throws ClassNotFoundException, SQLException {
 		createConnection(database, hostname, username, password, port);
 		SQLConnection.password = password;
+	}
+	
+	/**
+	 * this method is used to avoid SQL injection. this method will insert a backslash if a character is not a letter or a number
+	 * @param str
+	 * @return
+	 */
+	public static String insertBackSlash(String str) {
+		String result = "";
+		for(int i = 0; i < str.length(); result+=str.charAt(i++))
+			if(!Character.isLetterOrDigit(str.charAt(i)))	// if the character is not a letter or a number
+				result+="\\";
+		return result;
 	}
 }

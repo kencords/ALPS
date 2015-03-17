@@ -12,15 +12,12 @@ public class Home_Controller {
 	Comm_Controller commControl;
 	SQLConnection sqlConnect;
 	User user;
-	Login_Form login;
 	Home_Frame homeFrame;
 	
 	public Home_Controller(){
 		init();
 		sqlConnect.createDB();
-		login.setVisible(true);
 	}
-
 
 	private void init() {
 		initController();
@@ -41,7 +38,5 @@ public class Home_Controller {
 
 	private void initView() {
 		homeFrame = new Home_Frame();
-		
-		login = new Login_Form();
 	}
 }

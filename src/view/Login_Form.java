@@ -15,9 +15,10 @@ import model.User;
 
 @SuppressWarnings("serial")
 public class Login_Form extends JFrame{
-	private JTextField usernameTF;
-	private JPasswordField passwordPF;
-	public JLabel lblPassword;
+	public JTextField usernameTF;
+	public JPasswordField passwordPF;
+	private JLabel lblPassword;
+	public JButton btnLogin;
 
 	public Login_Form() {
 		setTitle("A.L.P.S.");
@@ -53,7 +54,7 @@ public class Login_Form extends JFrame{
 		passwordPF.setBounds(297, 264, 195, 26);
 		getContentPane().add(passwordPF);
 		
-		JButton btnLogin = new JButton("login");
+		btnLogin = new JButton("login");
 		btnLogin.setFont(new Font("Comic Sans MS", Font.PLAIN, 19));
 		btnLogin.setBounds(339, 372, 114, 33);
 		getContentPane().add(btnLogin);

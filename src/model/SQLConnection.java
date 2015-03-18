@@ -25,14 +25,36 @@ public class SQLConnection {
 		
 	}
 	
-	public void update(String update) throws ClassNotFoundException, SQLException{
-		Connection conn = createConnection(database, hostname, username, password, port);
+	public void update(String update) throws Exception{
+		closeConnection();
+		try{
+			conn = createConnection(database, hostname, username, password, port);
+			conn.setAutoCommit(false);
+			Statement stmt = conn.createStatement();
+			stmt.executeUpdate(update);
+			conn.commit();
+			conn.close();
+		}catch(SQLException | ClassNotFoundException e){
+			conn.rollback();
+			conn.close();
+			throw e;
+		}
 	}
 	
+	Connection conn ;
 	public ResultSet query(String query) throws ClassNotFoundException, SQLException{
-		Connection conn = createConnection(database, hostname, username, password, port);
+		closeConnection();
+		conn = createConnection(database, hostname, username, password, port);
 		Statement stmt = conn.createStatement();
-		return stmt.executeQuery(query);
+		ResultSet rs = stmt.executeQuery(query);
+		return rs;
+	}
+	
+	public void closeConnection() throws SQLException {
+		if(conn != null && !conn.isClosed()){
+			conn.close();
+			conn = null;
+		}
 	}
 	
 	private static SQLConnection instance;
@@ -56,7 +78,7 @@ public class SQLConnection {
 	public static String insertBackSlash(String str) {
 		String result = "";
 		for(int i = 0; i < str.length(); result+=str.charAt(i++))
-			if(!Character.isLetterOrDigit(str.charAt(i)))	// if the character is not a letter or a number
+			if(str.charAt(i) == '\'' || str.charAt(i) == '\"')	// if the character is not a letter or a number
 				result+="\\";
 		return result;
 	}

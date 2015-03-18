@@ -19,7 +19,7 @@ public class Comm_Controller implements ActionListener{
 		comm_list = new Comm_List();
 		communication = new Communication();
 		comm_tab = new Comm_Tab();
-		comm_form = new Comm_Form();
+		comm_form = new Comm_Form(Home_Controller.homeFrame);
 	}
 
 	@Override

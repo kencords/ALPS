@@ -15,6 +15,7 @@ import javax.swing.SwingConstants;
 
 import others.Util;
 import model.SQLConnection;
+import model.User;
 
 @SuppressWarnings("serial")
 public class Login_Form extends JFrame{
@@ -31,6 +32,7 @@ public class Login_Form extends JFrame{
 
 	private void initGUI() {
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setSize(new Dimension(800, 500));
 		getContentPane().setLayout(null);
 		
@@ -40,9 +42,12 @@ public class Login_Form extends JFrame{
 		lblNewLabel_1.setBounds(5, 91, 780, 26);
 		getContentPane().add(lblNewLabel_1);
 		
+		Font font = new Font("Comic Sans MS", Font.BOLD, 15);
+		
 		usernameTF = new JTextField();
+		usernameTF.setFont(font);
 		usernameTF.setHorizontalAlignment(SwingConstants.CENTER);
-		usernameTF.setBounds(297, 172, 195, 26);
+		usernameTF.setBounds(297, 172, 195, 30);
 		getContentPane().add(usernameTF);
 		usernameTF.setColumns(10);
 		
@@ -53,6 +58,7 @@ public class Login_Form extends JFrame{
 		getContentPane().add(lblNewLabel_2);
 		
 		passwordPF = new JPasswordField();
+		passwordPF.setFont(font);
 		passwordPF.setHorizontalAlignment(SwingConstants.CENTER);
 		passwordPF.setBounds(297, 264, 195, 26);
 		getContentPane().add(passwordPF);
@@ -85,14 +91,24 @@ public class Login_Form extends JFrame{
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	public ResultSet authenticate(SQLConnection sqlConnect) throws ClassNotFoundException, SQLException{
+	public User authenticate(SQLConnection sqlConnect) throws ClassNotFoundException, SQLException{
 		String username = usernameTF.getText().trim();
 		String password = Util.toString(passwordPF.getPassword());
-		ResultSet rs = sqlConnect.query("select * from user where username = '"+Util.insertBackSlash(username)+"' and password = md5('"+Util.insertBackSlash(password)+"')");
+		ResultSet rs = sqlConnect.query("select * from user where username = '"+SQLConnection.insertBackSlash(username)+"' and password = md5('"+SQLConnection.insertBackSlash(password)+"')");
 		try{
-			if(rs.next())	// if there is no username found this statement will throw an exception
-				return rs;
+			if(rs.next()){	// if there is no username found this statement will throw an exception
+				User user = new User();
+				user.setId(rs.getString("id"));
+				user.setUsername(username);
+				user.setPassword(password);
+				return user;
+			}
 		}catch(Exception e){}
 		return null;	// return null because no username was found
+	}
+
+	public void showLogin() {
+		passwordPF.setText("");
+		setVisible(true);
 	}
 }

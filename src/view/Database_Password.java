@@ -33,6 +33,7 @@ public class Database_Password extends JFrame implements ActionListener{
 		initGUI();
 	}
 	private void initGUI() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
 		setTitle("Enter root Password");
 		setSize(new Dimension(400, 140));

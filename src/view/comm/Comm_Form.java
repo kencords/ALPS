@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import view.Form;
 
 import java.awt.Font;
+import java.awt.Frame;
 
 @SuppressWarnings("serial")
 public class Comm_Form extends Form {
@@ -20,8 +21,9 @@ public class Comm_Form extends Form {
 	JLabel lblTitle, lblSender, lblUpload;
 	ButtonGroup grp;
 	
-	public Comm_Form() {
-		super();
+	public Comm_Form(Frame owner) {
+		super(owner, true);
+		
 		initComponents();
 		addComponents();
 		
@@ -117,7 +119,7 @@ public class Comm_Form extends Form {
 	}
 
 	@Override
-	public void verifyInput() {
-		
+	public boolean verifyInput() {
+		return false;
 	}
 }
